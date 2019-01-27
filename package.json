@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel server --out-dir build --presets=es2015 && webpack",
     "start": "babel-node ./server.js --exec --presets babel-preset-env"
   },
   "keywords": [],
