@@ -14,7 +14,7 @@ app.use(
     extended: false
   })
 );
-app.get("/", (req, res) => res.send("Hello World!"));
+app.get("/", (req, res) => res.send("Welcome to finding sen application!"));
 app.use("/api", users);
 app.use("/api", posts);
 
