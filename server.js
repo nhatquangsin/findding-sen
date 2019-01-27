@@ -7,6 +7,8 @@ import connectToDb from "./db/connect";
 
 connectToDb();
 
+const PORT = process.env.PORT || 3000;
+
 let app = express();
 app.use(bodyParser.json());
 app.use(
@@ -18,6 +20,6 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/api", users);
 app.use("/api", posts);
 
-app.listen(3000, () => {
-  console.log("server started - 3000");
+app.listen(PORT, () => {
+  console.log(`server started - ${PORT}`);
 });
