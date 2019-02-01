@@ -4,3 +4,4 @@ export const ADD_USER_SUCCESS = "Add user successfully";
 export const UPDATE_USER_SUCCESS = "Update user successfully";
 export const DELETE_USER_SUCCESS = "Delete user successfully";
 export const USER_NOT_FOUND = "User not found";
+export const WRONG_PASSWORD = "Wrong password";

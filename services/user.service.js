@@ -1,13 +1,16 @@
 import User from "../models/user";
 import slug from "limax";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "../config/index";
 import {
   GET_ALL_SUCCESS,
   GET_USER_SUCCESS,
   ADD_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
   DELETE_USER_SUCCESS,
-  USER_NOT_FOUND
+  USER_NOT_FOUND,
+  WRONG_PASSWORD
 } from "../messages/user.message";
 
 const UserService = {};
@@ -46,6 +49,36 @@ UserService.getUser = async (req, res) => {
           message: USER_NOT_FOUND
         };
         res.status(400).send(UserResponse);
+      }
+    });
+  } catch (err) {
+    res.send(err);
+  }
+};
+
+UserService.signin = async (req, res) => {
+  try {
+    User.findOne({ email: req.body.user.email }).exec((err, user) => {
+      if (!user) {
+        res.status(401).json({ message: USER_NOT_FOUND });
+      } else if (user) {
+        if (!bcrypt.compareSync(req.body.user.password, user.password)) {
+          res.status(401).json({ message: WRONG_PASSWORD });
+        } else {
+          return res.status(200).json({
+            token: jwt.sign(
+              {
+                email: user.email,
+                fullname: user.fullname,
+                _id: user._id
+              },
+              config.secret,
+              {
+                expiresIn: "24h"
+              }
+            )
+          });
+        }
       }
     });
   } catch (err) {

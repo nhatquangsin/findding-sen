@@ -1,4 +1,5 @@
 import UserService from "../services/user.service";
+import UserMiddleware from "../middleware/user.middlewares";
 
 const UserController = {};
 
@@ -8,6 +9,10 @@ UserController.getAll = (req, res) => {
 
 UserController.getUser = (req, res) => {
   UserService.getUser(req, res);
+};
+
+UserController.signin = (req, res) => {
+  UserService.signin(req, res);
 };
 
 UserController.addUser = (req, res) => {

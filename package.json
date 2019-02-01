@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel server --out-dir build --presets=es2015 && webpack",
     "start": "babel-node ./server.js --presets babel-preset-env",
     "dev": "nodemon ./server.js --exec babel-node --presets babel-preset-env"
   },

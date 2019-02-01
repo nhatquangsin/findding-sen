@@ -1,14 +1,19 @@
 import { Router } from "express";
 import UserController from "../controllers/user.controller";
+import UserMiddleware from "../middleware/user.middlewares";
 
 const router = new Router();
 
-router.get("/users", (req, res) => {
+router.get("/users", UserMiddleware.checkToken, (req, res) => {
   UserController.getAll(req, res);
 });
 
 router.get("/users/:id", (req, res) => {
   UserController.getUser(req, res);
+});
+
+router.post("/users/signin", (req, res) => {
+  UserController.signin(req, res);
 });
 
 router.post("/users", (req, res) => {
