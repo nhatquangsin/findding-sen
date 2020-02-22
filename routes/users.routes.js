@@ -16,15 +16,15 @@ router.post("/users/signin", (req, res) => {
   UserController.signin(req, res);
 });
 
-router.post("/users", UserMiddleware.checkToken, (req, res) => {
+router.post("/users", (req, res) => {
   UserController.addUser(req, res);
 });
 
-router.put("/users/:id", UserMiddleware.checkToken, (req, res) => {
+router.put("/users/:id", (req, res) => {
   UserController.updateUser(req, res);
 });
 
-router.delete("/users/:id", UserMiddleware.checkToken, (req, res) => {
+router.delete("/users/:id", (req, res) => {
   UserController.deleteUser(req, res);
 });
 

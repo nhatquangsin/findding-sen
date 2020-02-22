@@ -58,11 +58,11 @@ UserService.getUser = async (req, res) => {
 
 UserService.signin = async (req, res) => {
   try {
-    User.findOne({ email: req.body.user.email }).exec((err, user) => {
+    User.findOne({ email: req.body.email }).exec((err, user) => {
       if (!user) {
         res.status(401).json({ message: USER_NOT_FOUND });
       } else if (user) {
-        if (!bcrypt.compareSync(req.body.user.password, user.password)) {
+        if (!bcrypt.compareSync(req.body.password, user.password)) {
           res.status(401).json({ message: WRONG_PASSWORD });
         } else {
           return res.status(200).json({
@@ -89,15 +89,15 @@ UserService.signin = async (req, res) => {
 UserService.addUser = async (req, res) => {
   try {
     if (
-      !req.body.user.fullname ||
-      !req.body.user.email ||
-      !req.body.user.role ||
-      !req.body.user.password
+      !req.body.fullname ||
+      !req.body.email ||
+      !req.body.role ||
+      !req.body.password
     ) {
       res.status(403).end();
     }
-    let hashedPassword = bcrypt.hashSync(req.body.user.password, 8);
-    const newUser = new User(req.body.user);
+    let hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    const newUser = new User(req.body);
     newUser.password = hashedPassword;
     newUser.slug = slug(newUser.fullname.toLowerCase(), { lowercase: true });
 
@@ -122,11 +122,11 @@ UserService.updateUser = async (req, res) => {
       if (err) {
         res.status(500).send(err);
       }
-      let hashedPassword = bcrypt.hashSync(req.body.user.password, 8);
-      user.fullname = req.body.user.fullname || user.fullname;
-      user.email = req.body.user.email || user.email;
-      user.role = req.body.user.role || user.role;
-      user.phone = req.body.user.phone || user.phone;
+      let hashedPassword = bcrypt.hashSync(req.body.password, 8);
+      user.fullname = req.body.fullname || user.fullname;
+      user.email = req.body.email || user.email;
+      user.role = req.body.role || user.role;
+      user.phone = req.body.phone || user.phone;
       user.password = hashedPassword || user.password;
       user.slug = slug(user.fullname.toLowerCase(), {
         lowercase: true
