@@ -8,9 +8,6 @@ const postSchema = new Schema({
   address: String,
   pricePerDay: Number,
   isAvailable: Boolean,
-  fromDate: Date,
-  endDate: Date,
-  createAt: { type: Date, default: Date.now },
   senId: { type: Schema.Types.ObjectId, ref: "User" },
   coordinate: [Number],
   slug: String

@@ -75,20 +75,22 @@ PostService.getSenByPostId = async (req, res) => {
 
 PostService.addPost = async (req, res) => {
   try {
-    if (!req.body.post.name) {
+    if (!req.body.name) {
       res.status(403).end();
     }
-    const newPost = new Post(req.body.post);
+    const newPost = new Post(req.body);
     newPost.slug = slug(newPost.name.toLowerCase(), { lowercase: true });
 
     newPost.save((err, saved) => {
       if (err) {
         res.status(500).send(err);
       }
+
       const PostResponse = {
         message: ADD_POST_SUCCESS,
         data: saved
       };
+
       res.status(200).send(PostResponse);
     });
   } catch (err) {
@@ -102,16 +104,16 @@ PostService.updatePost = async (req, res) => {
       if (err) {
         res.status(500).send(err);
       }
-      post.name = req.body.post.name || post.name;
-      post.images = req.body.post.images || post.images;
-      post.content = req.body.post.content || post.content;
-      post.address = req.body.post.address || post.address;
-      post.pricePerDay = req.body.post.pricePerDay || post.pricePerDay;
-      post.isAvailable = req.body.post.isAvailable || post.isAvailable;
-      post.fromDate = req.body.post.fromDate || post.fromDate;
-      post.endDate = req.body.post.endDate || post.endDate;
-      post.senId = req.body.post.senId || post.senId;
-      post.coordinate = req.body.post.coordinate || post.coordinate;
+      post.name = req.body.name || post.name;
+      post.images = req.body.images || post.images;
+      post.content = req.body.content || post.content;
+      post.address = req.body.address || post.address;
+      post.pricePerDay = req.body.pricePerDay || post.pricePerDay;
+      post.isAvailable = req.body.isAvailable || post.isAvailable;
+      post.fromDate = req.body.fromDate || post.fromDate;
+      post.endDate = req.body.endDate || post.endDate;
+      post.senId = req.body.senId || post.senId;
+      post.coordinate = req.body.coordinate || post.coordinate;
       post.slug = slug(post.name.toLowerCase(), { lowercase: true });
 
       post.save((err, saved) => {
