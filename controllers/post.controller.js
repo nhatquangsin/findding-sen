@@ -26,4 +26,8 @@ PostController.deletePost = (req, res) => {
   PostService.deletePost(req, res);
 };
 
+PostController.deleteAllPost = (req, res) => {
+    PostService.deleteAllPost(req, res);
+};
+
 export default PostController;

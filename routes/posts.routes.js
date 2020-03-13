@@ -19,12 +19,16 @@ router.post("/posts", (req, res) => {
   PostController.addPost(req, res);
 });
 
-router.put("/posts/:id", (req, res) => {
+router.post("/posts/:id/update", (req, res) => {
   PostController.updatePost(req, res);
 });
 
-router.delete("/posts/:id", (req, res) => {
+router.post("/posts/:id/delete", (req, res) => {
   PostController.deletePost(req, res);
+});
+
+router.post("/posts/delete", (req, res) => {
+  PostController.deleteAllPost(req, res);
 });
 
 export default router;

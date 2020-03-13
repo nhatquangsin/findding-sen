@@ -76,7 +76,8 @@ UserService.signin = async (req, res) => {
               {
                 expiresIn: "24h"
               }
-            )
+            ),
+            user,
           });
         }
       }
@@ -88,6 +89,7 @@ UserService.signin = async (req, res) => {
 
 UserService.addUser = async (req, res) => {
   try {
+    console.log('new user', req.body);
     if (
       !req.body.fullname ||
       !req.body.email ||
@@ -154,7 +156,7 @@ UserService.deleteUser = async (req, res) => {
       if (err) {
         res.status(500).send(err);
       }
-      if (deleteRes.n == 0) {
+      if (deleteRes.n === 0) {
         const UserResponse = {
           message: USER_NOT_FOUND
         };
