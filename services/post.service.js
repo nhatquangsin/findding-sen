@@ -1,5 +1,3 @@
-import slug from "limax";
-
 import {
     GET_ALL_SUCCESS,
     GET_POST_SUCCESS,
@@ -29,7 +27,6 @@ PostService.getAll = async (req, res) => {
                     images: post.images,
                     coordinate: post.coordinate,
                     _id: post._id,
-                    name: post.name,
                     postType: post.postType,
                     content: post.content,
                     address: post.address,
@@ -40,6 +37,8 @@ PostService.getAll = async (req, res) => {
                     user,
                 });
             }
+
+            resPosts.sort((postA, postB) => parseInt(postB.createdAt) - parseInt(postA.createdAt));
 
             const PostResponse = {
                 message: GET_ALL_SUCCESS,
@@ -98,13 +97,9 @@ PostService.getSenByPostId = async (req, res) => {
 
 PostService.addPost = async (req, res) => {
     try {
-        if (!req.body.name) {
-            res.status(403).end();
-        }
         const newPost = new Post(req.body);
         newPost.likes = 0;
         newPost.createdAt = Date.now().toString();
-        newPost.slug = slug(newPost.name.toLowerCase(), {lowercase: true});
 
         newPost.save((err, saved) => {
             if (err) {
@@ -129,7 +124,6 @@ PostService.updatePost = async (req, res) => {
             if (err) {
                 res.status(500).send(err);
             }
-            post.name = req.body.name || post.name;
             post.images = req.body.images || post.images;
             post.content = req.body.content || post.content;
             post.address = req.body.address || post.address;
@@ -140,7 +134,6 @@ PostService.updatePost = async (req, res) => {
             post.senId = req.body.senId || post.senId;
             post.coordinate = req.body.coordinate || post.coordinate;
             post.likes = req.body.likes || post.likes;
-            post.slug = slug(post.name.toLowerCase(), {lowercase: true});
 
             post.save((err, saved) => {
                 if (err) {

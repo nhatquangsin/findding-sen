@@ -7,7 +7,6 @@ const postType = {
 };
 
 const postSchema = new Schema({
-  name: { type: String, required: true },
   postType: Number,
   images: [String],
   content: String,
@@ -18,7 +17,6 @@ const postSchema = new Schema({
   coordinate: [Number],
   likes: Number,
   createdAt: String,
-  slug: String,
 });
 
 let Post = mongoose.model("Post", postSchema);
