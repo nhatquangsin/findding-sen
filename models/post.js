@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const Schema = mongoose.Schema;
 
 const postType = {
@@ -15,7 +16,6 @@ const postSchema = new Schema({
   isAvailable: Boolean,
   senId: { type: Schema.Types.ObjectId, ref: "User" },
   coordinate: [Number],
-  likes: Number,
   createdAt: String,
 });
 

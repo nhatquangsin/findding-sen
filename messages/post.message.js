@@ -6,3 +6,4 @@ export const DELETE_POST_SUCCESS = "Delete post successfully";
 export const DELETE_ALL_POSTS_SUCCESS = "Delete all posts successfully";
 export const POST_NOT_FOUND = "Post not found";
 export const GET_AUTHOR_OF_POST_SUCCESS = "Get author of post successfully";
+export const ADD_POST_ERROR = "Add post error";

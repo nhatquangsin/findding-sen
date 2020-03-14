@@ -5,10 +5,11 @@ import {
     UPDATE_POST_SUCCESS,
     DELETE_POST_SUCCESS,
     POST_NOT_FOUND,
-    GET_AUTHOR_OF_POST_SUCCESS, DELETE_ALL_POSTS_SUCCESS
+    GET_AUTHOR_OF_POST_SUCCESS, DELETE_ALL_POSTS_SUCCESS, ADD_POST_ERROR
 } from "../messages/post.message";
 import User from "../models/user";
 import Post from "../models/post";
+import Like from "../models/like";
 
 const PostService = {};
 
@@ -19,9 +20,12 @@ PostService.getAll = async (req, res) => {
                 res.send(500).send(err);
             }
             const resPosts = [];
+            let likes = await Like.find();
 
             for (const post of posts) {
-                let user = await User.findById(post.senId).select('-password');
+                const user = await User.findById(post.senId).select('-password');
+                const likeUsers = likes
+                    .filter(like => like.postId.toString() === post._id.toString());
 
                 resPosts.push({
                     images: post.images,
@@ -32,8 +36,8 @@ PostService.getAll = async (req, res) => {
                     address: post.address,
                     pricePerDay: post.pricePerDay,
                     isAvailable: post.isAvailable,
-                    likes: post.likes,
                     createdAt: post.createdAt,
+                    likes: likeUsers,
                     user,
                 });
             }
@@ -97,8 +101,13 @@ PostService.getSenByPostId = async (req, res) => {
 
 PostService.addPost = async (req, res) => {
     try {
+        if (req.body.senId === undefined || req.body.content === undefined || req.body.postType === undefined) {
+            res.status(200).send(ADD_POST_ERROR);
+            return;
+        }
+
         const newPost = new Post(req.body);
-        newPost.likes = 0;
+        newPost.isAvailable = true;
         newPost.createdAt = Date.now().toString();
 
         newPost.save((err, saved) => {
@@ -133,7 +142,6 @@ PostService.updatePost = async (req, res) => {
             post.endDate = req.body.endDate || post.endDate;
             post.senId = req.body.senId || post.senId;
             post.coordinate = req.body.coordinate || post.coordinate;
-            post.likes = req.body.likes || post.likes;
 
             post.save((err, saved) => {
                 if (err) {

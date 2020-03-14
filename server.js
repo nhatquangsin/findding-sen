@@ -1,8 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import users from "./routes/users.routes";
-import posts from "./routes/posts.routes";
-import cors from 'cors';
+import cors from "cors";
+
+import users from "./routes/user.routes";
+import posts from "./routes/post.routes";
+import likes from "./routes/like.routes";
 
 import connectToDb from "./db/connect";
 
@@ -21,6 +23,7 @@ app.use(
 app.get("/", (req, res) => res.send("Welcome to finding sen application!"));
 app.use("/api", users);
 app.use("/api", posts);
+app.use("/api", likes);
 
 const port = process.env.PORT || 8000;
 
