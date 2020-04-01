@@ -6,6 +6,7 @@ import users from "./routes/user.routes";
 import posts from "./routes/post.routes";
 import likes from "./routes/like.routes";
 import upload from "./routes/upload.routes";
+import friend from "./routes/friend.routes";
 
 import connectToDb from "./db/connect";
 
@@ -26,6 +27,7 @@ app.use("/api", users);
 app.use("/api", posts);
 app.use("/api", likes);
 app.use("/api", upload);
+app.use("/api", friend);
 
 const port = process.env.PORT || 8000;
 

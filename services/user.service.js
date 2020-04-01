@@ -1,17 +1,19 @@
-import User from "../models/user";
 import slug from "limax";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 import config from "../config/index";
 import {
+  ADD_USER_SUCCESS,
+  DELETE_USER_SUCCESS,
   GET_ALL_SUCCESS,
   GET_USER_SUCCESS,
-  ADD_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
-  DELETE_USER_SUCCESS,
   USER_NOT_FOUND,
   WRONG_PASSWORD
 } from "../messages/user.message";
+import User from "../models/user";
+import { findFriendsOfUser } from "../services/friend.service";
 
 const UserService = {};
 
@@ -58,13 +60,15 @@ UserService.getUser = async (req, res) => {
 
 UserService.signin = async (req, res) => {
   try {
-    User.findOne({ email: req.body.email }).exec((err, user) => {
+    User.findOne({ email: req.body.email }).exec(async (err, user) => {
       if (!user) {
         res.status(401).json({ message: USER_NOT_FOUND });
       } else if (user) {
         if (!bcrypt.compareSync(req.body.password, user.password)) {
           res.status(401).json({ message: WRONG_PASSWORD });
         } else {
+          const friends = await findFriendsOfUser(user._id);
+
           return res.status(200).json({
             token: jwt.sign(
               {
@@ -78,6 +82,7 @@ UserService.signin = async (req, res) => {
               }
             ),
             user,
+            friends,
           });
         }
       }

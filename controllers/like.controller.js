@@ -4,7 +4,6 @@ import {
     ADD_LIKE_SUCCESS,
     DELETE_LIKE_SUCCESS,
     GET_ALL_OF_POST_SUCCESS,
-    LIKE_NOT_EXIST
 } from "../messages/like.message";
 import {GET_ALL_SUCCESS} from "../messages/like.message";
 
@@ -85,6 +84,6 @@ LikeController.deleteLike = async (req, res) => {
     } catch (err) {
         res.send(err);
     }
-}
+};
 
 export default LikeController;
