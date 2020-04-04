@@ -2,7 +2,7 @@ import slug from "limax";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import config from "../config/index";
+import config from "../config";
 import {
   ADD_USER_SUCCESS,
   DELETE_USER_SUCCESS,
@@ -13,7 +13,7 @@ import {
   WRONG_PASSWORD
 } from "../messages/user.message";
 import User from "../models/user";
-import {findFriendsOfUser} from "../services/friend.service";
+import {findFriendsOfUser} from "./friend.service";
 
 const UserService = {};
 
