@@ -20,7 +20,7 @@ PostService.getAll = async (req, res) => {
                 res.send(500).send(err);
             }
             const resPosts = [];
-            let likes = await Like.find();
+            const likes = await Like.find();
 
             for (const post of posts) {
                 const user = await User.findById(post.senId).select('-password');

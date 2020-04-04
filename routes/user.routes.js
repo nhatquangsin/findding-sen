@@ -12,6 +12,10 @@ router.get("/users/:id", (req, res) => {
   UserController.getUser(req, res);
 });
 
+router.get("/users/:id/liked-posts", (req, res) => {
+  UserController.getLikedPostsOfUser(req, res);
+});
+
 router.post("/users/signin", (req, res) => {
   UserController.signin(req, res);
 });

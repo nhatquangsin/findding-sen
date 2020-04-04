@@ -13,7 +13,7 @@ import {
   WRONG_PASSWORD
 } from "../messages/user.message";
 import User from "../models/user";
-import { findFriendsOfUser } from "../services/friend.service";
+import {findFriendsOfUser} from "../services/friend.service";
 
 const UserService = {};
 
@@ -62,14 +62,15 @@ UserService.signin = async (req, res) => {
   try {
     User.findOne({ email: req.body.email }).exec(async (err, user) => {
       if (!user) {
-        res.status(401).json({ message: USER_NOT_FOUND });
+        res.status(200).json({ message: USER_NOT_FOUND, status: 401 });
       } else if (user) {
         if (!bcrypt.compareSync(req.body.password, user.password)) {
-          res.status(401).json({ message: WRONG_PASSWORD });
+          res.status(200).json({ message: WRONG_PASSWORD, status: 401 });
         } else {
           const friends = await findFriendsOfUser(user._id);
 
           return res.status(200).json({
+            status: 200,
             token: jwt.sign(
               {
                 email: user.email,
@@ -94,7 +95,6 @@ UserService.signin = async (req, res) => {
 
 UserService.addUser = async (req, res) => {
   try {
-    console.log('new user', req.body);
     if (
       !req.body.fullname ||
       !req.body.email ||
@@ -176,6 +176,10 @@ UserService.deleteUser = async (req, res) => {
   } catch (err) {
     res.send(err);
   }
+};
+
+UserService.findUserById = async (userId) => {
+  return await User.findById(userId);
 };
 
 export default UserService;

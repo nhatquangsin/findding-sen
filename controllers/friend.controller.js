@@ -1,10 +1,24 @@
-import { ADD_FRIEND_SUCCESS, ADD_FRIEND_ERROR } from "../messages/friend.message";
+import {ADD_FRIEND_ERROR, ADD_FRIEND_SUCCESS, GET_ALL_SUCCESS} from "../messages/friend.message";
 import Friend from "../models/friend";
-import { findFriendsOfUser } from "../services/friend.service";
+import {findFriendsOfUser} from "../services/friend.service";
+import UserService from "../services/user.service";
 
 const FriendController = {};
 
 FriendController.getFriendsOfUser = async (req, res) => {
+    const friendIds = await findFriendsOfUser(req.params.userId);
+    let friends = [];
+    for (const id of friendIds) {
+        const user = await UserService.findUserById(id);
+        friends.push(user);
+    }
+
+    const FriendResponse = {
+        message: GET_ALL_SUCCESS,
+        data: friends,
+    };
+
+    res.status(200).send(FriendResponse);
 };
 
 FriendController.addFriend = async (req, res) => {
