@@ -19,7 +19,7 @@
     "cuid": "^2.1.4",
     "express": "^4.16.4",
     "express-form-data": "^2.0.11",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "limax": "^1.7.0",
     "mongoose": "^5.4.6"
   },
